@@ -1,0 +1,5 @@
+[thehyve_internal]
+gpgcheck=0
+baseurl=https://repo.thehyve.nl/content/repositories/releases
+enabled=1
+name=The Hyve Internal RPM releases

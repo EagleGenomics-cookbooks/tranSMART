@@ -1,0 +1,44 @@
+### Use full paths. You can leave these blank for automatic values
+#tools.psql.cmd=/usr/bin/psql
+
+### If not set, bultin ant will be used
+#tools.ant.cmd=/usr/bin/ant
+
+### Used to build some paths in the configuration file
+locations.tomcat=/var/lib/tomcat7
+
+### These should be writable by the user running the script
+locations.build.out=<%= @node[:transmart][:mainBuildDir] %>
+locations.db.tablespaces=<%= @node[:transmart][:mainPostgresDir] %>
+
+### Home directory for the user that'll be running transmart
+locations.transmartuser.home= <%= @node[:transmart][:userDir] %>
+
+### only needed for obscure functionality in ts
+locations.plink.executables=/opt/transmart/plink
+
+### jboss port should be same as ${locations.jboss}/server/default/deploy/jboss-web.deployer/server.xml
+### irrelevant for core-integration branch
+#ports.jboss=9090
+
+ports.solr=8080
+
+### A postgres role with superuser privileges
+### You can leave it blank, which will commonly use a role with the same name as
+### your (system) username
+postgres.user= <%= @node[:transmart][:user] %>
+
+### The database for connecting to before creating the transmart database
+### If you leave it blank, a db with the same name as the role chosen before
+### will be preferred
+postgres.workingdb=postgres
+
+### Other possible database variables. You should also be able to use the
+### environment variables PGHOST, PGPASSWORD, etc.
+#postgres.password=
+### set this in order not to use unix sockets:
+#postgres.host=localhost
+#postgres.port=5432
+
+### Target version TAG
+github.version.tag=GPL1.1.0

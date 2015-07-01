@@ -1,0 +1,14 @@
+[Unit]
+Description=Tomcat 7 service
+After=network.target
+
+[Service]
+WorkingDirectory=/usr/local/tomcat/bin
+RemainAfterExit=yes
+ExecStart=/bin/sh systemd-tomcat start
+Type=forking
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

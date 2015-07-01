@@ -1,0 +1,23 @@
+#!/bin/bash  
+# description: Tomcat Start Stop Restart  
+# processname: tomcat  
+# chkconfig: 234 20 80  
+JAVA_HOME=/usr/lib/jvm/java
+export JAVA_HOME  
+PATH=$JAVA_HOME/bin:$PATH  
+export PATH  
+CATALINA_HOME=/usr/share/apache-tomcat-7/bin  
+  
+case $1 in  
+start)  
+/bin/su tomcat7 $CATALINA_HOME/startup.sh  
+;;   
+stop)     
+/bin/su tomcat7 $CATALINA_HOME/shutdown.sh  
+;;   
+restart)  
+/bin/su tomcat7 $CATALINA_HOME/shutdown.sh  
+/bin/su tomcat7 $CATALINA_HOME/startup.sh  
+;;   
+esac      
+exit 0 

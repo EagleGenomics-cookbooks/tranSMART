@@ -1,0 +1,14 @@
+--- sudoersOriginal	2015-04-29 15:49:56.911123167 +0100
++++ sudoers	2015-04-27 16:40:58.847731354 +0100
+@@ -53,7 +53,10 @@
+ # Disable "ssh hostname sudo <cmd>", because it will show the password in clear. 
+ #         You have to run "ssh -t hostname sudo <cmd>".
+ #
+-Defaults    requiretty
++
++# Commented out Bart for tranSMART install, 
++# see step 8 https://wiki.transmartfoundation.org/pages/viewpage.action?pageId=6619205
++#Defaults    requiretty
+ 
+ #
+ # Refuse to run if unable to disable echo on the tty. This setting should also be
