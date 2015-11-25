@@ -76,17 +76,19 @@ bash 'Install_tranSMART' do
     bash -c "source vars; TSUSER_HOME=/usr/share/tomcat7/ make -C config/ install"
     make -C solr/ start &
     echo 'USER=tomcat7' | sudo tee /etc/default/rserve
-    service rserve start
+    service rserve start 
     
-    service tomcat7 stop
+    service tomcat7 stop &>> tomcat7.log
     echo 'JAVA_OPTS="-Xmx4096M -XX:MaxPermSize=1024M"' | sudo tee /usr/share/tomcat7/bin/setenv.sh
     wget -P /var/lib/tomcat7/webapps/ https://ci.transmartfoundation.org/browse/SAND-TRAPP/latest/artifact/shared/transmart.war/transmart.war
     patch -b -N /usr/share/apache-tomcat-7/tomcat/.grails/transmartConfig/Config.groovy  #{Chef::Config[:file_cache_path]}/configGroovy.patch
     chown tomcat7 /usr/share/apache-tomcat-7/tomcat/.grails/transmartConfig/Config.groovy 
-    service tomcat7 start
+    service tomcat7 start &>> tomcat7.log
+    service tomcat7 status &>> tomcat7.log
     
     make -C env/ data-integration
     make -C env/ update_etl
+    service tomcat7 status &>> tomcat7.log
     env > enviromentVariablesEnd
     #make -C samples/postgres load_clinical_GSE8581
     #make -C samples/postgres load_ref_annotation_GSE8581

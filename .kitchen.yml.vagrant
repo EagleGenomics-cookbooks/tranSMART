@@ -1,0 +1,23 @@
+---
+driver:
+  name: vagrant
+  network:
+  - ["forwarded_port", {guest: 8080, host: 8080}]
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-14.04
+ 
+  - name: rhel-7.0
+  
+  - name: rhel-6.5
+      
+  - name: centos-7.0
+
+suites:
+  - name: default
+    run_list:
+      - recipe[tranSMART::default]
+    attributes:
