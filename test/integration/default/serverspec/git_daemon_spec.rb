@@ -57,11 +57,11 @@ describe 'Tomcat Service' do
   end
 end
 
-describe 'SOLR Service' do
-  it 'is listening on port 8983' do
-    expect(port(8983)).to be_listening
-  end
-end
+#describe 'SOLR Service' do
+#  it 'is listening on port 8983' do
+#    expect(port(8983)).to be_listening
+#  end
+#end
 
 describe 'Postges Service' do
   it 'is listening on port 5432' do

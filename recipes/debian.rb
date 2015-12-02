@@ -59,7 +59,17 @@ log 'Install tranSMART'
 
 # needed for tomcat to run SOLR on right port
 cookbook_file 'configGroovy.patch' do
+  source 'configGroovy.patch'
   path "#{Chef::Config[:file_cache_path]}/configGroovy.patch"
+  action :create
+end
+
+cookbook_file 'solr.xml' do
+  path '/etc/tomcat7/Catalina/localhost/solr.xml'
+  source 'solr.xml'
+  owner 'tomcat7'
+  group 'tomcat7'
+  mode '0755'
   action :create
 end
 
@@ -74,25 +84,39 @@ bash 'Install_tranSMART' do
     sudo -u postgres bash -c "source vars; PGSQL_BIN=/usr/bin/ PGDATABASE=template1 make -C ddl/postgres/GLOBAL tablespaces"
     make postgres
     bash -c "source vars; TSUSER_HOME=/usr/share/tomcat7/ make -C config/ install"
-    make -C solr/ start &
+    
+    
+    make -C solr solr_home
+    chown -R tomcat7 solr/solr
+    
+    TS_DATA=`pwd`
+    WEB_INF=/var/lib/tomcat7/webapps/solr/WEB-INF/
+
+    service tomcat7 status &>> tomcat7.log
+    service tomcat7 start &>> tomcat7.log
+    cat /var/log/tomcat7/catalina.out >> tomcat7.log
+    service tomcat7 stop &>> tomcat7.log
+
+    sudo -u tomcat7 cp /home/ubuntu/transmart-data/solr/lib/ext/* /var/lib/tomcat7/webapps/solr/WEB-INF/lib/
+    sudo -u tomcat7 mkdir /var/lib/tomcat7/webapps/solr/WEB-INF/classes
+    sudo -u tomcat7 cp /home/ubuntu/transmart-data/solr/resources/log4j.properties /var/lib/tomcat7/webapps/solr/WEB-INF/classes
+
     echo 'USER=tomcat7' | sudo tee /etc/default/rserve
     service rserve start 
     
     service tomcat7 stop &>> tomcat7.log
     echo 'JAVA_OPTS="-Xmx4096M -XX:MaxPermSize=1024M"' | sudo tee /usr/share/tomcat7/bin/setenv.sh
-    wget -P /var/lib/tomcat7/webapps/ https://ci.transmartfoundation.org/browse/SAND-TRAPP/latest/artifact/shared/transmart.war/transmart.war
-    patch -b -N /usr/share/apache-tomcat-7/tomcat/.grails/transmartConfig/Config.groovy  #{Chef::Config[:file_cache_path]}/configGroovy.patch
-    chown tomcat7 /usr/share/apache-tomcat-7/tomcat/.grails/transmartConfig/Config.groovy 
+    wget -P /var/lib/tomcat7/webapps/ https://ci.transmartfoundation.org/browse/DEPLOY-TRAPP/latestSuccessful/artifact/shared/transmart.war/transmart.war
     service tomcat7 start &>> tomcat7.log
-    service tomcat7 status &>> tomcat7.log
     
     make -C env/ data-integration
     make -C env/ update_etl
-    service tomcat7 status &>> tomcat7.log
-    env > enviromentVariablesEnd
-    #make -C samples/postgres load_clinical_GSE8581
-    #make -C samples/postgres load_ref_annotation_GSE8581
-    #make -C samples/postgres load_expression_GSE8581
+ 
+    make -C samples/postgres load_clinical_GSE8581
+    make -C samples/postgres load_ref_annotation_GSE8581
+    make -C samples/postgres load_expression_GSE8581
+
+   env > enviromentVariablesEnd
   EOH
 end
 
