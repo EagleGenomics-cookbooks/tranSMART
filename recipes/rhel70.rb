@@ -84,7 +84,7 @@ transmart_data = ENV['PWD'] + '/transmart-data'
 
 include_recipe 'git'
 
-git transmart_data  do
+git transmart_data do
   repository 'https://github.com/transmart/transmart-data.git'
   revision 'master'
   action :checkout

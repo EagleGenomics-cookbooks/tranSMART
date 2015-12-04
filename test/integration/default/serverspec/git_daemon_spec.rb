@@ -28,11 +28,11 @@ describe command('stat transmart-data/vars') do
 end
 
 if os[:family] == 'redhat'
-  describe command('ps -ef')  do
+  describe command('ps -ef') do
     its(:stdout) { is_expected.to include 'postgres' }
   end
 
-  describe command('ps -ef')  do
+  describe command('ps -ef') do
     its(:stdout) { is_expected.to include 'apache ' }
   end
 end
@@ -42,7 +42,7 @@ if os[:family] == 'ubuntu'
     its(:stdout) { is_expected.to include 'postgresql' }
   end
 
-  describe command('ps -ef')  do
+  describe command('ps -ef') do
     its(:stdout) { is_expected.to include 'apache2' }
   end
 end
@@ -56,12 +56,6 @@ describe 'Tomcat Service' do
     expect(port(8080)).to be_listening
   end
 end
-
-#describe 'SOLR Service' do
-#  it 'is listening on port 8983' do
-#    expect(port(8983)).to be_listening
-#  end
-#end
 
 describe 'Postges Service' do
   it 'is listening on port 5432' do

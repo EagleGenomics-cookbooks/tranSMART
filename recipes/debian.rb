@@ -41,13 +41,19 @@ end
 
 ###############################################################################
 
+execute 'set working directory to installDirectory attribute' do
+  command "cd #{node['installDirectory']}"
+end
+
+###############################################################################
+
 log 'Get tranSMART from Git'
 
-transmart_data = ENV['PWD'] + '/transmart-data'
+transmart_data = node['installDirectory'] + '/transmart-data'
 
 include_recipe 'git'
 
-git transmart_data  do
+git transmart_data do
   repository 'https://github.com/transmart/transmart-data.git'
   revision 'master'
   action :checkout
@@ -88,20 +94,21 @@ bash 'Install_tranSMART' do
     make -C solr solr_home
     chown -R tomcat7 solr/solr
 
+    # Not sure these 2 lines are needed anymore
     TS_DATA=`pwd`
     WEB_INF=/var/lib/tomcat7/webapps/solr/WEB-INF/
+
     service tomcat7 start &>> tomcat7.log
     cat /var/log/tomcat7/catalina.out >> tomcat7.log
     service tomcat7 stop &>> tomcat7.log
 
-    sudo -u tomcat7 cp /home/ubuntu/transmart-data/solr/lib/ext/* /var/lib/tomcat7/webapps/solr/WEB-INF/lib/
+    sudo -u tomcat7 cp solr/lib/ext/* /var/lib/tomcat7/webapps/solr/WEB-INF/lib/
     sudo -u tomcat7 mkdir /var/lib/tomcat7/webapps/solr/WEB-INF/classes
-    sudo -u tomcat7 cp /home/ubuntu/transmart-data/solr/resources/log4j.properties /var/lib/tomcat7/webapps/solr/WEB-INF/classes
+    sudo -u tomcat7 cp solr/resources/log4j.properties /var/lib/tomcat7/webapps/solr/WEB-INF/classes
 
     echo 'USER=tomcat7' | sudo tee /etc/default/rserve
-    service rserve start 
+    service rserve start
 
-    #service tomcat7 stop &>> tomcat7.log
     echo 'JAVA_OPTS="-Xmx4096M -XX:MaxPermSize=1024M"' | sudo tee /usr/share/tomcat7/bin/setenv.sh
     wget -P /var/lib/tomcat7/webapps/ https://ci.transmartfoundation.org/browse/DEPLOY-TRAPP/latestSuccessful/artifact/shared/transmart.war/transmart.war
     mkdir -p /usr/share/tomcat7/.grails
@@ -116,7 +123,7 @@ bash 'Install_tranSMART' do
     make -C samples/postgres load_ref_annotation_GSE8581
     make -C samples/postgres load_expression_GSE8581
 
-   env > enviromentVariablesEnd
+    env > enviromentVariablesEnd
   EOH
 end
 
