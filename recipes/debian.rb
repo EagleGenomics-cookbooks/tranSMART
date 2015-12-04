@@ -41,12 +41,6 @@ end
 
 ###############################################################################
 
-execute 'set working directory to installDirectory attribute' do
-  command "cd #{node['installDirectory']}"
-end
-
-###############################################################################
-
 log 'Get tranSMART from Git'
 
 transmart_data = node['installDirectory'] + '/transmart-data'
