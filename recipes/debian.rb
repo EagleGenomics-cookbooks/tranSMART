@@ -58,19 +58,21 @@ end
 log 'Install tranSMART'
 
 # needed for tomcat to run SOLR on right port
-cookbook_file 'configGroovy.patch' do
-  source 'configGroovy.patch'
-  path "#{Chef::Config[:file_cache_path]}/configGroovy.patch"
-  action :create
-end
+# cookbook_file 'configGroovy.patch' do
+#   source 'configGroovy.patch'
+#   path "#{Chef::Config[:file_cache_path]}/configGroovy.patch"
+#   action :create
+# end
 
-cookbook_file 'solr.xml' do
-  path '/etc/tomcat7/Catalina/localhost/solr.xml'
-  source 'solr.xml'
-  owner 'tomcat7'
-  group 'tomcat7'
-  mode '0755'
-  action :create
+bash 'Install_tranSMART' do
+  user 'root'
+  code <<-EOH
+    sudo -u tomcat7 tee /etc/tomcat7/Catalina/localhost/solr.xml <<EOD
+<?xml version="1.0" encoding="utf-8"?>
+<Context docBase="#{transmart_data}/solr/webapps/solr.war" crossContext="true">
+  <Environment name="solr/home" type="java.lang.String" value="#{transmart_data}/solr/solr" override="true"/>
+</Context>
+  EOH
 end
 
 bash 'Install_tranSMART' do

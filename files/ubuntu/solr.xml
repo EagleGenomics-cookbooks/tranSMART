@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Context docBase="/home/ubuntu/transmart-data/solr/webapps/solr.war" crossContext="true">
-  <Environment name="solr/home" type="java.lang.String" value="/home/ubuntu/transmart-data/solr/solr" override="true"/>
-</Context>
