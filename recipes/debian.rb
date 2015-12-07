@@ -27,13 +27,13 @@ log 'Install packages'
 
 include_recipe 'apt'
 
-node['unixNonSpecific'].each do |pkg|
+node['transmart']['unixNonSpecific'].each do |pkg|
   package pkg do
     action :install
   end
 end
 
-node['unixDebian'].each do |pkg|
+node['transmart']['unixDebian'].each do |pkg|
   package pkg do
     action :install
   end
@@ -43,7 +43,7 @@ end
 
 log 'Get tranSMART from Git'
 
-transmart_data = node['installDirectory'] + '/transmart-data'
+transmart_data = node['transmart']['installDirectory'] + '/transmart-data'
 
 include_recipe 'git'
 
@@ -56,13 +56,6 @@ end
 ###############################################################################
 
 log 'Install tranSMART'
-
-# needed for tomcat to run SOLR on right port
-# cookbook_file 'configGroovy.patch' do
-#   source 'configGroovy.patch'
-#   path "#{Chef::Config[:file_cache_path]}/configGroovy.patch"
-#   action :create
-# end
 
 bash 'Install_tranSMART' do
   user 'root'
@@ -79,7 +72,7 @@ bash 'Install_tranSMART' do
   user 'root'
   cwd transmart_data
   code <<-EOH
-    env > enviromentVariablesStart
+    env > environmentVariablesStart
     export TAR_COMMAND=tar
     php env/vars-ubuntu.php > vars
     source vars
@@ -119,7 +112,7 @@ bash 'Install_tranSMART' do
     make -C samples/postgres load_ref_annotation_GSE8581
     make -C samples/postgres load_expression_GSE8581
 
-    env > enviromentVariablesEnd
+    env > environmentVariablesEnd
   EOH
 end
 
