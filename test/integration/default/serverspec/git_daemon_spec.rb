@@ -19,12 +19,12 @@ describe command('which make') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command(". /etc/profile; ls -d $TRANSMART_INSTALL_DIRECTORY/transmart-data") do
+describe command('. /etc/profile; ls -d $TRANSMART_INSTALL_DIRECTORY/transmart-data') do
   its(:stdout) { should_not match(/ls: cannot access/) }
   its(:exit_status) { should eq 0 }
 end
 
-describe command(". /etc/profile; stat $TRANSMART_INSTALL_DIRECTORY/transmart-data/vars") do
+describe command('. /etc/profile; stat $TRANSMART_INSTALL_DIRECTORY/transmart-data/vars') do
   its(:exit_status) { should eq 0 }
 end
 
