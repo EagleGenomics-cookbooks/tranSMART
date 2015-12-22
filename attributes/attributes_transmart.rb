@@ -14,7 +14,7 @@ default['transmart']['unixRhel'] = ['postgresql93-server', 'java-1.7.0-openjdk-d
 # Apache tomcat 7 version
 default['transmart']['tomcatVersion'] = '7.0.59'
 
-default['transmart']['installDirectory'] = '/home/ubuntu'
+default['transmart']['installDirectory'] = '/usr/local'
 # default['installDirectory'] = '/apps'
 
 # default['transmartDirectory'] = default['installDirectory'] + '/transmart-data'

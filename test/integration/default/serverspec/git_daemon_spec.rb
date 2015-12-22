@@ -19,16 +19,12 @@ describe command('which make') do
   its(:exit_status) { should eq 0 }
 end
 
-# . /etc/profile; Needed due to a bug in the :pre command on ubuntu systems!
-transmart_dir = '. /etc/profile; echo $TRANSMART_INSTALL_DIRECTORY'
-
-printf "transmart_dir = %s\n", transmart_dir
-
-describe command("ls -d #{transmart_dir}/transmart-data") do
-  its(:stdout) { should match(/transmart-data/) }
+describe command(". /etc/profile; ls -d $TRANSMART_INSTALL_DIRECTORY/transmart-data") do
+  its(:stdout) { should_not match(/ls: cannot access/) }
+  its(:exit_status) { should eq 0 }
 end
 
-describe command("stat #{transmart_dir}/transmart-data/vars") do
+describe command(". /etc/profile; stat $TRANSMART_INSTALL_DIRECTORY/transmart-data/vars") do
   its(:exit_status) { should eq 0 }
 end
 

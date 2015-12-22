@@ -1,8 +1,5 @@
 ---
 driver:
-#  name: vagrant
-#  network:
-#  - ["forwarded_port", {guest: 8080, host: 8080}]
   name: ec2
   aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
   region: <%= ENV['AWS_REGION'] %>

@@ -39,6 +39,13 @@ node['transmart']['unixDebian'].each do |pkg|
   end
 end
 
+##########################################################
+# here for use by serverspec
+
+magic_shell_environment 'TRANSMART_INSTALL_DIRECTORY' do
+  value node['transmart']['installDirectory']
+end
+
 ###############################################################################
 
 log 'Get tranSMART from Git'
