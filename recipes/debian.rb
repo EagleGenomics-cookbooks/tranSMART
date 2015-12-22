@@ -110,7 +110,7 @@ bash 'Install_tranSMART' do
     mkdir -p /usr/share/tomcat7/.grails
     chmod -R g+w /usr/share/tomcat7/.grails
     chgrp -R tomcat7 /usr/share/tomcat7/.grails
-    service tomcat7 start &>> tomcat7.log
+    service tomcat7 restart &>> tomcat7.log
 
     make -C env/ data-integration
     make -C env/ update_etl

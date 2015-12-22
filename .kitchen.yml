@@ -1,14 +1,46 @@
 ---
 driver:
-  name: vagrant
-  network:
-  - ["forwarded_port", {guest: 8080, host: 8080}]
-
+  name: ec2
+  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
+  region: <%= ENV['AWS_REGION'] %>
+  availability_zone: <%= ENV['AWS_AVAILABILITY_ZONE'] %>
+  tags:
+    "created-by": "test-kitchen"
+    "Name": "eag-bga-tranSMART1.2"
+    "User": "bga"
+    "Project": "EAG"
+    
 provisioner:
   name: chef_zero
 
 platforms:
   - name: ubuntu-14.04
+    driver:
+      image_id: ami-47a23a30 # ami-ce247db9 ami-f1810f86  # ami-98aa1cf0    # ami-9eaa1cf6
+      instance_type: "m3.medium"
+    transport:
+      username: ubuntu
+      
+#  - name: rhel-7.0
+#    driver:
+#      image_id: ami-a8d369c0
+#      instance_type: "m3.medium"
+#    transport:
+#      username: ec2-user
+#      
+#  - name: rhel-6.5
+#    driver:
+#      image_id: ami-1643ff7e
+#      instance_type: "m3.medium"
+#    transport:
+#      username: ec2-use
+#     
+#  - name: centos-7.0
+#    driver:
+#      image_id: ami-1609da7e
+#      instance_type: "m3.medium"
+#    transport:
+#      username: ubuntu
 
 suites:
   - name: default
