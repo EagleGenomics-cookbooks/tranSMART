@@ -2,7 +2,7 @@ name 'tranSMART'
 maintainer 'Eagle Genomics Ltd'
 maintainer_email 'support@eaglegenomics.com'
 description 'Installs tranSMART'
-version '0.2.0'
+version '0.2.1'
 
 depends 'apt'
 depends 'build-essential'
