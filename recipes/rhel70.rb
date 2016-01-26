@@ -16,18 +16,12 @@ cookbook_file 'thehyve_internal.repo' do
 end
 
 ###############################################################################
-log 'Install packages'
+log 'Install transmart-r package'
 
-node['unixRhel'].each do |pkg|
-  package pkg do
-    action :install
-  end
-end
+include_recipe 'apt'
 
-node['unixNonSpecific'].each do |pkg|
-  package pkg do
-    action :install
-  end
+package 'transmart-r' do
+  action :install
 end
 
 ###############################################################################

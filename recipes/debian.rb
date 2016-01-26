@@ -12,6 +12,13 @@ apt_repository 'hyve_internal' do
 end
 
 ###############################################################################
+log 'Install transmart-r package'
+
+package 'transmart-r' do
+  action :install
+end
+
+###############################################################################
 log 'Fix debian bug by adding locale file'
 
 cookbook_file 'locale' do
@@ -23,44 +30,6 @@ cookbook_file 'locale' do
 end
 
 ###############################################################################
-log 'Install packages'
-
-include_recipe 'apt'
-
-node['transmart']['unixNonSpecific'].each do |pkg|
-  package pkg do
-    action :install
-  end
-end
-
-node['transmart']['unixDebian'].each do |pkg|
-  package pkg do
-    action :install
-  end
-end
-
-##########################################################
-# here for use by serverspec
-
-magic_shell_environment 'TRANSMART_INSTALL_DIRECTORY' do
-  value node['transmart']['installDirectory']
-end
-
-###############################################################################
-
-log 'Get tranSMART from Git'
-
-transmart_data = node['transmart']['installDirectory'] + '/transmart-data'
-
-include_recipe 'git'
-
-git transmart_data do
-  repository 'https://github.com/transmart/transmart-data.git'
-  revision 'master'
-  action :checkout
-end
-
-###############################################################################
 
 log 'Install tranSMART'
 
@@ -69,15 +38,15 @@ bash 'Install_tranSMART' do
   code <<-EOH
     sudo -u tomcat7 tee /etc/tomcat7/Catalina/localhost/solr.xml <<EOD
 <?xml version="1.0" encoding="utf-8"?>
-<Context docBase="#{transmart_data}/solr/webapps/solr.war" crossContext="true">
-  <Environment name="solr/home" type="java.lang.String" value="#{transmart_data}/solr/solr" override="true"/>
+<Context docBase="#{node['transmart']['data']}/solr/webapps/solr.war" crossContext="true">
+  <Environment name="solr/home" type="java.lang.String" value="#{node['transmart']['data']}/solr/solr" override="true"/>
 </Context>
   EOH
 end
 
 bash 'Install_tranSMART' do
   user 'root'
-  cwd transmart_data
+  cwd node['transmart']['data']
   code <<-EOH
     env > environmentVariablesStart
     export TAR_COMMAND=tar

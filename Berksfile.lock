@@ -15,7 +15,7 @@ GRAPH
     windows (>= 0.0.0)
     yum-epel (>= 0.0.0)
   magic_shell (1.0.0)
-  tranSMART (0.2.0)
+  tranSMART (0.2.1)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
     git (>= 0.0.0)
