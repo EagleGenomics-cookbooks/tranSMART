@@ -22,15 +22,12 @@ include_recipe 'apt'
 node['transmart']['packages'].each do |pkg|
   package pkg do
     action :install
-	:upgrade
   end
 end
 
 ###############################################################################
 
 log 'Get tranSMART from Git'
-
-transmart_data = node['transmart']['installDirectory'] + '/transmart-data'
 
 include_recipe 'git'
 

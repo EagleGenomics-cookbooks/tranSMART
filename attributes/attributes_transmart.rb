@@ -4,7 +4,7 @@ default['apt']['compile_time_update'] = true
 # we need build essentials for ruby gems with c libraries to build themselves in compile time
 default['build-essential']['compile_time'] = true
 
-default['transmart']['packages'] = ['make', 'curl', 'git', 'groovy', 'wget', 'patch']
+default['transmart']['packages'] = %w(make curl git groovy wget patch)
 
 case node['platform_family']
 when 'debian'
