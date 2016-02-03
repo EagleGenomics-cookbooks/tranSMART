@@ -15,18 +15,6 @@ end
 
 ###############################################################################
 
-log 'Install supporting packages'
-
-include_recipe 'apt'
-
-node['transmart']['packages'].each do |pkg|
-  package pkg do
-    action :install
-  end
-end
-
-###############################################################################
-
 log 'Get tranSMART from Git'
 
 include_recipe 'git'

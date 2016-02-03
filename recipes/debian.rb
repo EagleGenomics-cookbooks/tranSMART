@@ -1,6 +1,10 @@
 log 'debian started'
 
 ###############################################################################
+
+include_recipe 'apt'
+
+###############################################################################
 log 'Set tranSMART repository'
 
 apt_repository 'hyve_internal' do
@@ -12,13 +16,6 @@ apt_repository 'hyve_internal' do
 end
 
 ###############################################################################
-log 'Install transmart-r package'
-
-package 'transmart-r' do
-  action :install
-end
-
-###############################################################################
 log 'Fix debian bug by adding locale file'
 
 cookbook_file 'locale' do
@@ -27,6 +24,14 @@ cookbook_file 'locale' do
   owner 'root'
   group 'root'
   mode 0755
+end
+
+# the packages need to be installed after the locale fix
+
+node['transmart']['packages'].each do |pkg|
+  package pkg do
+    action :install
+  end
 end
 
 ###############################################################################
@@ -50,6 +55,7 @@ bash 'Install_tranSMART' do
   code <<-EOH
     env > environmentVariablesStart
     export TAR_COMMAND=tar
+
     php env/vars-ubuntu.php > vars
     source vars
     sudo -u postgres bash -c "source vars; PGSQL_BIN=/usr/bin/ PGDATABASE=template1 make -C ddl/postgres/GLOBAL tablespaces"

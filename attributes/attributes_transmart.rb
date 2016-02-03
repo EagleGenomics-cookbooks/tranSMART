@@ -8,9 +8,9 @@ default['transmart']['packages'] = %w(make curl git groovy wget patch)
 
 case node['platform_family']
 when 'debian'
-  default['transmart']['packages'].push('openjdk-7-jdk', 'php5-cli', 'php5-json', 'postgresql-9.3', 'apache2', 'tomcat7', 'libtcnative-1', 'language-pack-en')
+  default['transmart']['packages'].push('openjdk-7-jdk', 'php5-cli', 'php5-json', 'postgresql-9.3', 'apache2', 'tomcat7', 'libtcnative-1', 'language-pack-en', 'transmart-r')
 when 'rhel'
-  # 'postgresql93-server', 'postgresql93-contrib',
+  # 'postgresql93-server', 'postgresql93-contrib',S
   default['transmart']['packages'].push('postgresql93-server', 'java-1.7.0-openjdk-devel', 'php55-cli-minimal', 'httpd')
 end
 
