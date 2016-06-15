@@ -6,8 +6,8 @@ driver:
   availability_zone: <%= ENV['AWS_AVAILABILITY_ZONE'] %>
   tags:
     "created-by": "test-kitchen"
-    "Name": "eag-bga-tranSMART1.2"
-    "User": "bga"
+    "Name": "eagle-tranSMART1.2"
+    "User": "chef-test-kitchen"
     "Project": "EAG"
     
 provisioner:
