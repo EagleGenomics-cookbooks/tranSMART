@@ -20,7 +20,15 @@ platforms:
       instance_type: "m3.medium"
     transport:
       username: ubuntu
-      
+ 
+#  - name: centos-6.6
+#    driver:
+#      image_id: 'ami-2b7f4c5c'
+#      instance_type: 'm3.medium'
+#    transport:
+#      name: rsync
+#      username: centos
+#      
 #  - name: rhel-7.0
 #    driver:
 #      image_id: ami-a8d369c0
@@ -33,7 +41,8 @@ platforms:
 #      image_id: ami-1643ff7e
 #      instance_type: "m3.medium"
 #    transport:
-#      username: ec2-use
+#      name: rsync
+#      username: ec2-user
 #     
 #  - name: centos-7.0
 #    driver:
