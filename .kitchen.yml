@@ -18,6 +18,10 @@ platforms:
     driver:
       image_id: ami-47a23a30 # ami-ce247db9 ami-f1810f86  # ami-98aa1cf0    # ami-9eaa1cf6
       instance_type: "m3.medium"
+      block_device_mappings:
+      - device_name: /dev/sda1
+        ebs:
+          delete_on_termination: true
     transport:
       username: ubuntu
  
@@ -25,6 +29,10 @@ platforms:
 #    driver:
 #      image_id: 'ami-2b7f4c5c'
 #      instance_type: 'm3.medium'
+#      block_device_mappings:
+#      - device_name: /dev/sda1
+#        ebs:
+#          delete_on_termination: true
 #    transport:
 #      name: rsync
 #      username: centos
@@ -33,6 +41,10 @@ platforms:
 #    driver:
 #      image_id: ami-a8d369c0
 #      instance_type: "m3.medium"
+#      block_device_mappings:
+#      - device_name: /dev/sda1
+#        ebs:
+#          delete_on_termination: true
 #    transport:
 #      username: ec2-user
 #      
@@ -40,6 +52,10 @@ platforms:
 #    driver:
 #      image_id: ami-1643ff7e
 #      instance_type: "m3.medium"
+#      block_device_mappings:
+#      - device_name: /dev/sda1
+#        ebs:
+#          delete_on_termination: true
 #    transport:
 #      name: rsync
 #      username: ec2-user
@@ -48,6 +64,10 @@ platforms:
 #    driver:
 #      image_id: ami-1609da7e
 #      instance_type: "m3.medium"
+#      block_device_mappings:
+#      - device_name: /dev/sda1
+#        ebs:
+#          delete_on_termination: true
 #    transport:
 #      username: ubuntu
 
